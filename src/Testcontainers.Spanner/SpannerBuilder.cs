@@ -6,7 +6,7 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
 {
     public const string SpannerImage = "gcr.io/cloud-spanner-emulator/emulator:latest";
 
-    public  ushort[] SpannerPorts = { 9010, 9020 };
+    public  static ushort[] SpannerPorts = new { 9010, 9020 };
 
     public const string DefaultProjectId = "default";
 
