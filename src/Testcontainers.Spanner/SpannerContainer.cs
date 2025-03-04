@@ -8,7 +8,7 @@ public sealed class SpannerContainer : DockerContainer
     /// Initializes a new instance of the <see cref="SpannerContainer" /> class.
     /// </summary>
     /// <param name="configuration">The container configuration.</param>
-    public SpannerContainer(PubSubConfiguration configuration)
+    public SpannerContainer(SpannerConfiguration configuration)
         : base(configuration)
     {
     }
@@ -19,6 +19,6 @@ public sealed class SpannerContainer : DockerContainer
     /// <returns>The Spanner emulator endpoint.</returns>
     public string GetEmulatorEndpoint()
     {
-        return new UriBuilder(Uri.UriSchemeHttp, Hostname, GetMappedPublicPort(PubSubBuilder.PubSubPort)).ToString();
+        return new UriBuilder(Uri.UriSchemeHttp, Hostname, GetMappedPublicPort(SpannerBuilder.PubSubPorts[0])).ToString();
     }
 }
