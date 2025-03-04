@@ -1,4 +1,5 @@
 using System;
+using DotNet.Testcontainers.Containers;
 using Google.Cloud.Spanner.Data;
 
 namespace Testcontainers.Spanner;
@@ -31,4 +32,13 @@ public sealed class SpannerContainerTest : IAsyncLifetime
         // Then
         await connection.OpenAsync();
     }
+
+    [Fact]
+    [Trait(nameof(DockerCli.DockerPlatform), nameof(DockerCli.DockerPlatform.Linux))]
+    public void CheckContainer()
+    {
+        Assert.True(_spannerContainer.State == TestcontainersStates.Running);
+        Assert.True(_spannerContainer.Image.FullName == "gcr.io/cloud-spanner-emulator/emulator:latest");
+    }
+
 }
