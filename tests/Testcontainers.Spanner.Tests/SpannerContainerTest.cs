@@ -29,6 +29,6 @@ public sealed class SpannerContainerTest : IAsyncLifetime
         using var connection = new SpannerConnection(connectionString);
 
         // Then
-        Assert.True(connection.Open());
+        connection.Open();
     }
 }
