@@ -2,7 +2,7 @@ namespace Testcontainers.Spanner;
 
 /// <inheritdoc cref="ContainerBuilder{TBuilderEntity, TContainerEntity, TConfigurationEntity}" />
 [PublicAPI]
-public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, BigQueryContainer, BigQueryConfiguration>
+public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerContainer, SpannerConfiguration>
 {
     public const string SpannerImage = "gcr.io/cloud-spanner-emulator/emulator:latest";
 
@@ -43,10 +43,10 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, BigQueryCo
     }
 
     /// <inheritdoc />
-    public override BigQueryContainer Build()
+    public override SpannerContainer Build()
     {
         Validate();
-        return new BigQueryContainer(DockerResourceConfiguration);
+        return new SpannerContainer(DockerResourceConfiguration);
     }
 
     /// <inheritdoc />
