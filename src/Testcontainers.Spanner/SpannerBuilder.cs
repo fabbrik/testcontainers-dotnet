@@ -63,7 +63,7 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
     /// <inheritdoc />
     protected override SpannerBuilder Clone(IResourceConfiguration<CreateContainerParameters> resourceConfiguration)
     {
-        return Merge(DockerResourceConfiguration, new Spanneronfiguration(resourceConfiguration));
+        return Merge(DockerResourceConfiguration, new SpannerConfiguration(resourceConfiguration));
     }
 
     /// <inheritdoc />
