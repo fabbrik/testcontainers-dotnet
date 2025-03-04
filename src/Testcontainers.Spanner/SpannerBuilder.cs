@@ -63,18 +63,18 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
     /// <inheritdoc />
     protected override SpannerBuilder Clone(IResourceConfiguration<CreateContainerParameters> resourceConfiguration)
     {
-        return Merge(DockerResourceConfiguration, new BigQueryConfiguration(resourceConfiguration));
+        return Merge(DockerResourceConfiguration, new Spanneronfiguration(resourceConfiguration));
     }
 
     /// <inheritdoc />
     protected override SpannerBuilder Clone(IContainerConfiguration resourceConfiguration)
     {
-        return Merge(DockerResourceConfiguration, new BigQueryConfiguration(resourceConfiguration));
+        return Merge(DockerResourceConfiguration, new SpannerConfiguration(resourceConfiguration));
     }
 
     /// <inheritdoc />
-    protected override SpannerBuilder Merge(BigQueryConfiguration oldValue, BigQueryConfiguration newValue)
+    protected override SpannerBuilder Merge(SpannerConfiguration oldValue, SpannerConfiguration newValue)
     {
-        return new SpannerBuilder(new BigQueryConfiguration(oldValue, newValue));
+        return new SpannerBuilder(new SpannerConfiguration(oldValue, newValue));
     }
 }
