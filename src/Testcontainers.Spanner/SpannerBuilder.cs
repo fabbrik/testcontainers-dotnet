@@ -1,3 +1,5 @@
+using DotNet.Testcontainers;
+
 namespace Testcontainers.Spanner;
 
 /// <inheritdoc cref="ContainerBuilder{TBuilderEntity, TContainerEntity, TConfigurationEntity}" />
@@ -6,9 +8,10 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
 {
     public const string SpannerImage = "gcr.io/cloud-spanner-emulator/emulator:latest";
 
-    public  static ushort[] SpannerPorts = new ushort[]{ 9010, 9020 };
+    internal const int GrpcPort = 9010;
+    internal const int RestPort = 9020;
 
-    public const string DefaultProjectId = "default";
+    public const string DefaultProjectId = "test-project";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SpannerBuilder" /> class.
@@ -54,10 +57,24 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
     {
         return base.Init()
             .WithImage(SpannerImage)
-            .WithPortBinding(SpannerPorts[0], true)
-            .WithPortBinding(SpannerPorts[1], true)
+            .WithPortBinding(GrpcPort, true)
+            .WithPortBinding(RestPort, true)
             .WithProject(DefaultProjectId)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("(?s).*listening.*$"));
+      .WithWaitStrategy(
+        Wait
+          .ForUnixContainer()
+          .UntilMessageIsLogged($".+REST server listening at 0.0.0.0:{RestPort}")
+          .UntilMessageIsLogged($".+gRPC server listening at 0.0.0.0:{GrpcPort}")
+        );
+    }
+
+    /// <inheritdoc />
+    protected override void Validate()
+    {
+        base.Validate();
+        _ = Guard.Argument(DockerResourceConfiguration.ProjectId, nameof(DockerResourceConfiguration.ProjectId))
+          .NotNull()
+          .NotEmpty();
     }
 
     /// <inheritdoc />

@@ -12,13 +12,4 @@ public sealed class SpannerContainer : DockerContainer
         : base(configuration)
     {
     }
-
-    /// <summary>
-    /// Gets the Spanner emulator endpoint.
-    /// </summary>
-    /// <returns>The Spanner emulator endpoint.</returns>
-    public string GetEmulatorEndpoint()
-    {
-        return new UriBuilder(Uri.UriSchemeHttp, Hostname, GetMappedPublicPort(SpannerBuilder.SpannerPorts[0])).ToString();
-    }
 }

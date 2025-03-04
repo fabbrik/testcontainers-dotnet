@@ -1,3 +1,6 @@
+using System;
+using Google.Cloud.Spanner.Data;
+
 namespace Testcontainers.Spanner;
 
 public sealed class SpannerContainerTest : IAsyncLifetime
@@ -19,17 +22,13 @@ public sealed class SpannerContainerTest : IAsyncLifetime
     public async Task IsConnectedReturnsTrue()
     {
         // Given
-        var host = _spannerContainer.Hostname;
-
-        var port = _spannerContainer.GetMappedPublicPort(SpannerBuilder.SpannerPorts[0]);
-
-        using var spannerClient = new SpannerClient(host, port, SpannerBuilder.DefaultProjectId);
-
-        // When
-        await spannerClient.ConnectAsync(CancellationToken.None)
-            .ConfigureAwait(true);
+        var connectionString = $"Data Source=projects/{SpannerBuilder.DefaultProjectId}/instances/test-instance/databases/test-database;EmulatorDetection=EmulatorOnly";
+        
+        Environment.SetEnvironmentVariable("SPANNER_EMULATOR_HOST", "localhost:9010");
+        
+        using var connection = new SpannerConnection(connectionString);
 
         // Then
-        Assert.True(spannerClient.IsConnected);
+        Assert.True(connection.Open());
     }
 }

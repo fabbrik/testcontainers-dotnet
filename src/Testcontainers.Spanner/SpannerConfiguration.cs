@@ -1,13 +1,21 @@
+
 namespace Testcontainers.Spanner;
 
 /// <inheritdoc cref="ContainerConfiguration" />
 [PublicAPI]
 public sealed class SpannerConfiguration : ContainerConfiguration
 {
+    public string? ProjectId { get; }
     /// <summary>
     /// Initializes a new instance of the <see cref="SpannerConfiguration" /> class.
     /// </summary>
-    public SpannerConfiguration()
+    public SpannerConfiguration(string? projectId = null)
+        : this(new SpannerConfiguration())
+    {
+        this.ProjectId = projectId;
+    }
+
+    private SpannerConfiguration()
     {
     }
 
