@@ -19,6 +19,6 @@ public sealed class SpannerContainer : DockerContainer
     /// <returns>The Spanner emulator endpoint.</returns>
     public string GetEmulatorEndpoint()
     {
-        return new UriBuilder(Uri.UriSchemeHttp, Hostname, GetMappedPublicPort(SpannerBuilder.PubSubPorts[0])).ToString();
+        return new UriBuilder(Uri.UriSchemeHttp, Hostname, GetMappedPublicPort(SpannerBuilder.SpannerPorts[0])).ToString();
     }
 }
