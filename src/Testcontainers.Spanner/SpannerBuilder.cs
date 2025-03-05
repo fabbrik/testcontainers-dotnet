@@ -60,12 +60,9 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
             .WithPortBinding(GrpcPort, true)
             .WithPortBinding(RestPort, true)
             .WithProject(DefaultProjectId)
-      .WithWaitStrategy(
-        Wait
-          .ForUnixContainer()
-          .UntilMessageIsLogged($".+REST server listening at 0.0.0.0:{RestPort}")
-          .UntilMessageIsLogged($".+gRPC server listening at 0.0.0.0:{GrpcPort}")
-        );
+            .WithWaitStrategy(Wait.ForUnixContainer()
+                .UntilMessageIsLogged($".+REST server listening at 0.0.0.0:{RestPort}")
+                .UntilMessageIsLogged($".+gRPC server listening at 0.0.0.0:{GrpcPort}"));
     }
 
     /// <inheritdoc />
