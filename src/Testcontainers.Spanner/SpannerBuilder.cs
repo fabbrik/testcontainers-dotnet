@@ -35,20 +35,9 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
     /// <inheritdoc />
     protected override SpannerConfiguration DockerResourceConfiguration { get; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="projectId"></param>
-    /// <returns></returns>
-    public SpannerBuilder WithProject(string projectId)
-    {
-        return WithCommand("--project", projectId);
-    }
-
     /// <inheritdoc />
     public override SpannerContainer Build()
     {
-        Validate();
         return new SpannerContainer(DockerResourceConfiguration);
     }
 
@@ -59,19 +48,9 @@ public sealed class SpannerBuilder : ContainerBuilder<SpannerBuilder, SpannerCon
             .WithImage(SpannerImage)
             .WithPortBinding(GrpcPort, true)
             .WithPortBinding(RestPort, true)
-            .WithProject(DefaultProjectId)
             .WithWaitStrategy(Wait.ForUnixContainer()
                 .UntilMessageIsLogged($".+REST server listening at 0.0.0.0:{RestPort}")
                 .UntilMessageIsLogged($".+gRPC server listening at 0.0.0.0:{GrpcPort}"));
-    }
-
-    /// <inheritdoc />
-    protected override void Validate()
-    {
-        base.Validate();
-        _ = Guard.Argument(DockerResourceConfiguration.ProjectId, nameof(DockerResourceConfiguration.ProjectId))
-          .NotNull()
-          .NotEmpty();
     }
 
     /// <inheritdoc />
